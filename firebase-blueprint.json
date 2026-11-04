@@ -1,0 +1,227 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with level and statistics",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastLoginAt": { "type": "string", "format": "date-time" },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended"] },
+        "currentLevel": { "type": "integer" },
+        "totalQuizCompleted": { "type": "integer" },
+        "totalExamCompleted": { "type": "integer" },
+        "isAdmin": { "type": "boolean" }
+      },
+      "required": ["uid", "name", "email", "createdAt", "accountStatus", "currentLevel"]
+    },
+    "QuizCategory": {
+      "title": "QuizCategory",
+      "description": "Bengali quiz subject category",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "order": { "type": "integer" }
+      },
+      "required": ["id", "name", "isActive", "order"]
+    },
+    "Question": {
+      "title": "Question",
+      "description": "Bengali multiple choice quiz question",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "question": { "type": "string" },
+        "options": { "type": "array" },
+        "correctAnswer": { "type": "integer" },
+        "explanation": { "type": "string" },
+        "difficulty": { "type": "string", "enum": ["easy", "medium", "hard"] },
+        "points": { "type": "integer" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["id", "categoryId", "question", "options", "correctAnswer", "points", "isActive"]
+    },
+    "Level": {
+      "title": "Level",
+      "description": "Progression level from 1 to 100",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "levelNumber": { "type": "integer" },
+        "title": { "type": "string" },
+        "questionIds": { "type": "array" },
+        "timeLimit": { "type": "integer" },
+        "passingScore": { "type": "integer" },
+        "rewardPoints": { "type": "integer" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["id", "levelNumber", "title", "passingScore", "rewardPoints", "isActive"]
+    },
+    "Exam": {
+      "title": "Exam",
+      "description": "Daily, weekly, or special examination",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "examType": { "type": "string", "enum": ["daily", "weekly", "special"] },
+        "questionIds": { "type": "array" },
+        "duration": { "type": "integer" },
+        "totalMarks": { "type": "integer" },
+        "passingMarks": { "type": "integer" },
+        "rewardPoints": { "type": "integer" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["id", "title", "examType", "duration", "totalMarks", "passingMarks", "rewardPoints", "isActive"]
+    },
+    "Wallet": {
+      "title": "Wallet",
+      "description": "User points wallet and balance",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "availablePoints": { "type": "integer" },
+        "reservedPoints": { "type": "integer" },
+        "lifetimeEarnedPoints": { "type": "integer" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "availablePoints", "reservedPoints", "lifetimeEarnedPoints"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Points credit or debit transaction audit log",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "type": { "type": "string", "enum": ["quiz_reward", "level_reward", "exam_reward", "daily_checkin", "ad_reward", "withdrawal_reserve", "withdrawal_refund", "withdrawal_paid", "admin_adjustment"] },
+        "points": { "type": "integer" },
+        "description": { "type": "string" },
+        "referenceId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "type", "points", "description", "createdAt"]
+    },
+    "Withdrawal": {
+      "title": "Withdrawal",
+      "description": "Withdrawal request for bKash, Nagad, or Rocket",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "paymentMethod": { "type": "string", "enum": ["bKash", "Nagad", "Rocket"] },
+        "accountNumber": { "type": "string" },
+        "requestedPoints": { "type": "integer" },
+        "amountBDT": { "type": "integer" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "paid"] },
+        "adminNote": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "processedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "paymentMethod", "accountNumber", "requestedPoints", "amountBDT", "status", "createdAt"]
+    },
+    "DailyReward": {
+      "title": "DailyReward",
+      "description": "Daily check-in reward claim record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "date": { "type": "string" },
+        "dayNumber": { "type": "integer" },
+        "rewardPoints": { "type": "integer" },
+        "claimedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "date", "rewardPoints", "claimedAt"]
+    },
+    "AdSettings": {
+      "title": "AdSettings",
+      "description": "Monetag or Advertica network configuration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "provider": { "type": "string", "enum": ["monetag", "advertica"] },
+        "enabled": { "type": "boolean" },
+        "placementSettings": { "type": "string" },
+        "frequencySettings": { "type": "string" },
+        "rewardAmount": { "type": "integer" },
+        "dailyLimit": { "type": "integer" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "provider", "enabled"]
+    },
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "General app conversion and withdrawal rules",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "pointRate": { "type": "integer" },
+        "pointsPerBDT": { "type": "integer" },
+        "minimumWithdrawalPoints": { "type": "integer" },
+        "dailyRewardPoints": { "type": "integer" },
+        "appVersion": { "type": "string" },
+        "noticeBangla": { "type": "string" },
+        "supportPhone": { "type": "string" },
+        "supportEmail": { "type": "string" }
+      },
+      "required": ["id", "pointsPerBDT", "minimumWithdrawalPoints"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile with level and stats"
+    },
+    "/quiz_categories/{categoryId}": {
+      "schema": "QuizCategory",
+      "description": "Bengali quiz subject categories"
+    },
+    "/questions/{questionId}": {
+      "schema": "Question",
+      "description": "Quiz questions repository"
+    },
+    "/levels/{levelId}": {
+      "schema": "Level",
+      "description": "100 Progressive levels"
+    },
+    "/exams/{examId}": {
+      "schema": "Exam",
+      "description": "Exam definitions"
+    },
+    "/wallets/{userId}": {
+      "schema": "Wallet",
+      "description": "User points wallet and balance"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Points ledger audit log"
+    },
+    "/withdrawals/{withdrawalId}": {
+      "schema": "Withdrawal",
+      "description": "Withdrawal request records"
+    },
+    "/daily_rewards/{rewardId}": {
+      "schema": "DailyReward",
+      "description": "User daily check-in claims"
+    },
+    "/ad_settings/{providerId}": {
+      "schema": "AdSettings",
+      "description": "Ad network configurations"
+    },
+    "/app_settings/{settingsId}": {
+      "schema": "AppSettings",
+      "description": "Global application configuration"
+    }
+  }
+}

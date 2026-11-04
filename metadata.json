@@ -1,0 +1,6 @@
+{
+  "name": "Bangla Quiz & Earn",
+  "description": "Bengali quiz and earning app featuring 100 levels, examinations, daily rewards, points wallet with bKash/Nagad/Rocket withdrawal, Monetag/Advertica ad integrations, and Google Sign-In.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
